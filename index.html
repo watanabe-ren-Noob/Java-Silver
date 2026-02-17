@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Silver 対策</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow: hidden; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-6">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-black text-center text-blue-900 mb-10">Java Silver 習得アプリ</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+            <button onclick="toggleModal()" class="bg-blue-600 text-white p-6 rounded-2xl shadow-lg hover:bg-blue-700 transition font-bold text-xl text-center">
+                🚀 試験を開始
+            </button>
+            <button onclick="location.href='huku.html'" class="bg-white text-slate-700 p-6 rounded-2xl shadow-lg border-2 border-slate-100 hover:border-blue-400 transition font-bold text-xl text-center">
+                📚 復習
+            </button>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <h2 class="text-xl font-bold mb-6 flex items-center"><span class="bg-blue-100 text-blue-600 p-1 rounded mr-2"></span> 問題を選んで挑戦</h2>
+            
+            <h3 class="font-bold text-slate-400 text-sm mb-3 uppercase tracking-widest">第1章：Javaの概要</h3>
+            <div id="list-ch1" class="grid grid-cols-5 gap-2 mb-8"></div>
+
+            <h3 class="font-bold text-slate-400 text-sm mb-3 uppercase tracking-widest">第2章：データ型と文字列操作</h3>
+            <div id="list-ch2" class="grid grid-cols-5 gap-2"></div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="toggleModal()"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-3xl shadow-lg z-50 overflow-y-auto p-8">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-slate-800">範囲を選択</h3>
+                <p class="text-slate-500 text-sm mt-2">選択した章からランダムに出題します</p>
+            </div>
+
+            <div class="grid gap-4">
+                <button onclick="startExam('ch1')" class="w-full bg-blue-50 text-blue-700 p-4 rounded-2xl font-bold hover:bg-blue-100 transition">第1章 (9問)</button>
+                <button onclick="startExam('ch2')" class="w-full bg-indigo-50 text-indigo-700 p-4 rounded-2xl font-bold hover:bg-indigo-100 transition">第2章 (34問)</button>
+                <button onclick="startExam('all')" class="w-full bg-slate-800 text-white p-4 rounded-2xl font-bold hover:bg-slate-900 transition shadow-lg">全範囲から挑戦</button>
+            </div>
+
+            <button onclick="toggleModal()" class="mt-6 w-full text-slate-400 text-sm hover:underline">キャンセル</button>
+        </div>
+    </div>
+
+    <script src="js/quiz-data.js"></script>
+    <script>
+        // 個別問題リストの生成
+        const container1 = document.getElementById('list-ch1');
+        const container2 = document.getElementById('list-ch2');
+
+        quizData.forEach((q, index) => {
+            const btn = document.createElement('button');
+            btn.className = "py-2 rounded-lg border border-slate-200 text-sm font-bold hover:bg-blue-50 hover:border-blue-500 transition";
+            btn.innerText = `問${q.id}`;
+            btn.onclick = () => {
+                localStorage.setItem('targetIndex', index);
+                localStorage.removeItem('examRange'); // 個別選択時はランダムフラグを消す
+                window.location.href = 'quiz.html';
+            };
+            if (q.id <= 9) container1.appendChild(btn);
+            else container2.appendChild(btn);
+        });
+
+        // モーダル制御
+        function toggleModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            document.body.classList.toggle('modal-active');
+        }
+
+        // 試験開始処理
+        function startExam(range) {
+            localStorage.setItem('examRange', range);
+            localStorage.removeItem('targetIndex'); // 個別選択をリセット
+            window.location.href = 'quiz.html';
+        }
+    </script>
+</body>
+</html>

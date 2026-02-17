@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Silver 攻略チートシート</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-extrabold text-blue-900">Java Silver 攻略チートシート</h1>
+            <p class="text-slate-500">解説のボタンから対応する問題をチェックできます</p>
+        </header>
+
+        <div class="space-y-12">
+            <section>
+                <h2 class="text-2xl font-black text-blue-800 mb-6 flex items-center">
+                    <span class="bg-blue-600 text-white px-3 py-1 rounded mr-3 text-sm">第1章</span>
+                    Javaの概要とプログラム作成
+                </h2>
+                <div class="grid gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">1. ソースコードの構成ルール</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(1)" class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold hover:bg-blue-200">問1</button>
+                                <button onclick="jumpToQuiz(2)" class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold hover:bg-blue-200">問2</button>
+                                <button onclick="jumpToQuiz(3)" class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold hover:bg-blue-200">問3</button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-2">順序：<strong>package → import → class</strong></p>
+                        <ul class="text-sm list-disc ml-5 space-y-1">
+                            <li>java.langパッケージは自動インポートされる。</li>
+                            <li>同一パッケージ内のクラスもインポート不要。</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">2. mainメソッドとstaticの制約</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(4)" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold hover:bg-red-200">問4</button>
+                                <button onclick="jumpToQuiz(5)" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold hover:bg-red-200">問5</button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600"><strong>staticメソッド</strong>から非static（インスタンス）変数へは直接アクセス不可。</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">3. 実行コマンドと引数</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(6)" class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold hover:bg-green-200">問6</button>
+                                <button onclick="jumpToQuiz(7)" class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold hover:bg-green-200">問7</button>
+                                <button onclick="jumpToQuiz(8)" class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold hover:bg-green-200">問8</button>
+                                <button onclick="jumpToQuiz(9)" class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold hover:bg-green-200">問9</button>
+                            </div>
+                        </div>
+                        <ul class="text-sm list-disc ml-5 space-y-1">
+                            <li>実行：<code class="bg-slate-100 px-1">java Sample</code> (<strong>.classは不要</strong>)</li>
+                            <li>引数：<code class="bg-slate-100 px-1">args[0]</code> はクラス名の次の単語から。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-2xl font-black text-orange-800 mb-6 flex items-center">
+                    <span class="bg-orange-600 text-white px-3 py-1 rounded mr-3 text-sm">第2章</span>
+                    基本データ型と文字列の操作
+                </h2>
+                <div class="grid gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">1. 数値リテラルと識別子</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(10)" class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-bold hover:bg-orange-200">問10-14</button>
+                            </div>
+                        </div>
+                        <ul class="text-sm list-disc ml-5 space-y-1">
+                            <li><strong>アンダースコア(_)：</strong>数字の間のみOK。先頭、末尾、小数点前後はNG。</li>
+                            <li><strong>8進数：</strong>0から始まる数値。8と9は使えない（例：0827はエラー）。</li>
+                            <li><strong>識別子：</strong>使用可能な記号は <code class="bg-slate-100 px-1">$</code> と <code class="bg-slate-100 px-1">_</code> のみ。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-indigo-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">2. ローカル変数型推論 (var)</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(15)" class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-xs font-bold hover:bg-indigo-200">問15-17</button>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-2"><strong>メソッド内のローカル変数</strong>でのみ使用可能。</p>
+                        <ul class="text-sm list-disc ml-5 text-red-600 font-bold">
+                            <li>NG：フィールド（クラス変数）、引数、戻り値の型。</li>
+                            <li>NG：初期化なし、nullでの初期化。</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-pink-600">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">3. String と StringBuilder</h3>
+                            <div class="flex gap-1 flex-wrap justify-end">
+                                <button onclick="jumpToQuiz(19)" class="bg-pink-100 text-pink-700 px-2 py-1 rounded text-xs font-bold hover:bg-pink-200">問19</button>
+                                <button onclick="jumpToQuiz(22)" class="bg-pink-100 text-pink-700 px-2 py-1 rounded text-xs font-bold hover:bg-pink-200">問22</button>
+                                <button onclick="jumpToQuiz(28)" class="bg-pink-100 text-pink-700 px-2 py-1 rounded text-xs font-bold hover:bg-pink-200">問28</button>
+                                <button onclick="jumpToQuiz(30)" class="bg-pink-100 text-pink-700 px-2 py-1 rounded text-xs font-bold hover:bg-pink-200">問30-32</button>
+                            </div>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <p><strong>String（不変）：</strong>一度作成すると内容は変わらない。replace等は「新しい文字列」を返すだけ。</p>
+                            <p><strong>StringBuilder（可変）：</strong>appendやreverseで自身の内容を書き換え可能。</p>
+                            <p><strong>テキストブロック：</strong><code class="bg-slate-100 px-1">"""</code> で開始。開始直後の改行は必須。インデントは終端引用符の位置が基準。</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-lg">4. 配列の宣言と初期化</h3>
+                            <div class="flex gap-1">
+                                <button onclick="jumpToQuiz(37)" class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold hover:bg-yellow-200">問37-39</button>
+                                <button onclick="jumpToQuiz(40)" class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-xs font-bold hover:bg-yellow-200">問40-43</button>
+                            </div>
+                        </div>
+                        <ul class="text-sm list-disc ml-5 space-y-1">
+                            <li><strong>宣言：</strong><code class="bg-slate-100 px-1">int[] a</code> はOKだが、<code class="bg-slate-100 px-1">int[2] a</code> のようにサイズ指定は不可。</li>
+                            <li><strong>初期化：</strong><code class="bg-slate-100 px-1">new int[2]{1, 2}</code> はNG（サイズと要素の同時指定不可）。</li>
+                            <li><strong>多次元：</strong>最初の次元のサイズは省略不可。<code class="bg-slate-100 px-1">new int[][3]</code> はNG。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <a href="index.html" class="block text-center mt-12 text-blue-600 font-bold hover:underline">← ホームに戻る</a>
+    </div>
+
+    <script src="js/quiz-data.js"></script>
+    <script>
+        function jumpToQuiz(questionId) {
+            const index = quizData.findIndex(q => q.id === questionId);
+            if (index !== -1) {
+                localStorage.setItem('targetIndex', index);
+                window.location.href = 'quiz.html';
+            } else {
+                alert("該当する問題が見つかりませんでした。");
+            }
+        }
+    </script>
+</body>
+</html>
