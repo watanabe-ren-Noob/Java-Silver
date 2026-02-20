@@ -2,42 +2,56 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Java Silver 攻略DB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .loader { border-top-color: #3b82f6; animation: spinner 1.5s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* タップ時の青い枠を消してスッキリさせる */
+        input, textarea, button { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen p-4 font-sans">
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 md:p-6 font-sans">
     <div class="max-w-2xl mx-auto">
         
-        <div class="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
-            <div class="flex items-center gap-4">
-                <button onclick="adminLogin()" id="admin-indicator" class="text-[10px] text-slate-800 hover:text-slate-600 font-bold transition-all">
-                    [ 管理者ログイン ]
+        <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+            <div class="flex items-center gap-2">
+                <button onclick="adminLogin()" id="admin-indicator" class="text-[10px] text-slate-700 hover:text-slate-500 font-bold px-2 py-1 rounded border border-slate-900 transition-all">
+                    [ 管理者 ]
                 </button>
             </div>
-            <h1 class="text-xl font-black italic tracking-tighter text-blue-500">JAVA SILVER 攻略DB</h1>
+            <h1 class="text-lg md:text-xl font-black italic tracking-tighter text-blue-500">JAVA SILVER 攻略DB</h1>
         </div>
 
-        <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 mb-8 shadow-2xl">
-            <input id="memo-title" type="text" placeholder="タイトル" class="w-full mb-3 p-4 bg-black rounded-xl border border-slate-800 outline-none focus:border-blue-600 text-sm text-white transition-all">
-            <textarea id="memo-content" rows="3" placeholder="間違いやすいポイントを投稿しよう！" class="w-full p-4 bg-black rounded-xl border border-slate-800 outline-none focus:border-blue-600 text-sm text-white mb-4"></textarea>
-            <button id="save-btn" onclick="saveMemo()" class="w-full bg-blue-700 hover:bg-blue-600 text-white py-4 rounded-2xl font-black transition-all transform active:scale-95 shadow-lg">投稿を共有する</button>
+        <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 mb-6 shadow-2xl">
+            <input id="memo-title" type="text" placeholder="タイトル" 
+                class="w-full mb-3 p-3 bg-black rounded-xl border border-slate-800 outline-none focus:border-blue-600 text-sm text-white transition-all">
+            <textarea id="memo-content" rows="3" placeholder="間違いやすいポイントを投稿しよう！" 
+                class="w-full p-3 bg-black rounded-xl border border-slate-800 outline-none focus:border-blue-600 text-sm text-white mb-3 transition-all"></textarea>
+            <button id="save-btn" onclick="saveMemo()" 
+                class="w-full bg-blue-700 hover:bg-blue-600 text-white py-3.5 rounded-xl font-black text-sm transition-all transform active:scale-[0.98] shadow-lg">
+                投稿を共有する
+            </button>
         </div>
 
         <div id="status-msg" class="text-center mb-6 hidden">
-            <div class="inline-flex items-center px-4 py-2 rounded-full bg-slate-800 text-[10px] font-bold text-blue-400">
+            <div class="inline-flex items-center px-4 py-2 rounded-full bg-slate-800 text-[10px] font-bold text-blue-400 shadow-inner">
                 <div class="loader w-3 h-3 border-2 border-slate-600 rounded-full mr-2"></div>取得中...
             </div>
         </div>
 
-        <div id="memo-list" class="space-y-4"></div>
+        <div id="memo-list" class="space-y-4 mb-10"></div>
+
+        <div class="mt-8 mb-10">
+            <button onclick="location.href='index.html'" 
+                class="w-full text-slate-600 py-4 text-[10px] font-bold text-center uppercase tracking-widest border-t border-slate-900 hover:text-slate-400">
+                ← メニューに戻る
+            </button>
+        </div>
     </div>
 
     <script>
-        // ★ここにデプロイしたURLを貼り付ける
         const GAS_URL = "https://script.google.com/macros/s/AKfycbz5Hpsub2pshWggj5zBMvXVKBaRPqMo4jTohtm66VTEhWz68-uZfAVCAxhassQiFrhZWg/exec"; 
         
         let currentAdminPass = ""; 
@@ -59,7 +73,7 @@
                 if (data.length > 0 && data[0].isAdmin) {
                     const indicator = document.getElementById('admin-indicator');
                     indicator.innerText = "[ ADMIN MODE ON ]";
-                    indicator.className = "text-[10px] text-red-500 font-bold";
+                    indicator.className = "text-[10px] text-red-500 font-bold px-2 py-1 rounded border border-red-900/30 bg-red-950/20";
                 }
             } catch (e) { console.error(e); }
             finally { statusMsg.classList.add('hidden'); }
@@ -67,26 +81,27 @@
 
         function displayMemos(memos) {
             const list = document.getElementById('memo-list');
-            list.innerHTML = memos.length === 0 ? '<p class="text-center text-slate-500">投稿がまだありません</p>' : '';
+            list.innerHTML = memos.length === 0 ? '<p class="text-center text-slate-500 text-sm mt-10">投稿がまだありません</p>' : '';
             
             memos.forEach(memo => {
                 const isMyPost = myPostIds.includes(String(memo.postId));
                 const canEdit = isMyPost || memo.isAdmin;
 
                 const div = document.createElement('div');
-                div.className = "bg-slate-900/40 p-5 rounded-2xl border border-slate-800 transition-all";
+                div.className = "bg-slate-900/40 p-4 md:p-5 rounded-xl border border-slate-800 transition-all shadow-sm";
                 div.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="font-black text-blue-400 text-sm tracking-tight" id="t-${memo.postId}">${memo.title}</h3>
-                        <div class="flex items-center gap-3">
-                            <span class="text-[9px] font-mono text-slate-600 bg-black px-2 py-1 rounded">${memo.date}</span>
-                            ${canEdit ? `
-                                <button onclick="editMemo('${memo.postId}')" class="text-[10px] text-blue-500 font-bold hover:underline">編集</button>
-                                <button onclick="deleteMemo('${memo.postId}')" class="text-[10px] text-red-500 font-bold hover:underline">削除</button>
-                            ` : ''}
-                        </div>
+                    <div class="flex justify-between items-start mb-2.5">
+                        <h3 class="font-bold text-blue-400 text-sm flex-1 pr-2" id="t-${memo.postId}">${memo.title}</h3>
+                        <span class="text-[9px] font-mono text-slate-600 bg-black px-1.5 py-0.5 rounded shrink-0">${memo.date}</span>
                     </div>
-                    <p class="text-slate-300 text-xs leading-relaxed whitespace-pre-wrap" id="c-${memo.postId}">${memo.content}</p>
+                    <p class="text-slate-300 text-[13px] leading-relaxed whitespace-pre-wrap mb-4" id="c-${memo.postId}">${memo.content}</p>
+                    
+                    ${canEdit ? `
+                        <div class="flex justify-end gap-4 border-t border-slate-800/50 pt-3 mt-1">
+                            <button onclick="editMemo('${memo.postId}')" class="text-[11px] text-blue-500 font-bold px-2 py-1">編集</button>
+                            <button onclick="deleteMemo('${memo.postId}')" class="text-[11px] text-red-500 font-bold px-2 py-1">削除</button>
+                        </div>
+                    ` : ''}
                 `;
                 list.appendChild(div);
             });
@@ -117,8 +132,8 @@
         async function editMemo(postId) {
             const oldTitle = document.getElementById(`t-${postId}`).innerText;
             const oldContent = document.getElementById(`c-${postId}`).innerText;
-            const newTitle = prompt("新しいタイトル", oldTitle);
-            const newContent = prompt("新しい内容", oldContent);
+            const newTitle = prompt("編集: タイトル", oldTitle);
+            const newContent = prompt("編集: 内容", oldContent);
             
             if (!newTitle || !newContent) return;
 
@@ -140,8 +155,5 @@
 
         fetchMemos();
     </script>
-    <div>
-        <button onclick="location.href='index.html'" class="w-full text-slate-500 py-2 text-xs font-bold text-center uppercase">メニューに戻る</button>
-    </div>
 </body>
 </html>
