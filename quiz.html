@@ -3,33 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>クイズ | Java Silver</title>
+    <title>Java Silver 対策 - 習得モード</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
-        /* スクロールバーを隠す（コード用） */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        #code-input, #code-display { tab-size: 4; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex items-start sm:items-center justify-center p-3 sm:p-6">
-    <div id="quiz-container" class="w-full max-w-2xl bg-slate-800 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl my-4">
-        <div class="flex justify-between items-center mb-6">
-            <span id="progress" class="text-blue-400 font-mono text-xs sm:text-sm uppercase tracking-widest">Question 0/0</span>
-            <button onclick="location.href='index.html'" class="text-slate-400 hover:text-white p-2 text-sm">✕ 閉じる</button>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-2 sm:p-4 font-sans">
+    <div id="quiz-container" class="w-full max-w-3xl mx-auto bg-slate-900 p-4 sm:p-6 rounded-3xl shadow-2xl border border-slate-800">
+        
+        <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-2">
+            <span id="progress" class="text-blue-500 font-mono text-xs font-bold tracking-widest">問題 0 / 0</span>
+            <button onclick="location.href='index.html'" class="text-slate-500 hover:text-white text-xs font-bold">✕ 終了する</button>
         </div>
 
-        <div id="question-text" class="text-lg sm:text-xl font-bold mb-6 leading-relaxed"></div>
+        <div id="question-text" class="text-lg font-bold mb-6 leading-relaxed text-slate-100 px-1"></div>
         
-        <div id="code-container" class="mb-6 rounded-xl overflow-hidden shadow-inner"></div>
+        <div id="display-section" class="mb-4 hidden">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] text-slate-500 font-black uppercase">【見本】問題のプログラム</span>
+                <button onclick="copyToEditor()" class="text-blue-400 hover:text-blue-300 text-[10px] font-bold border border-blue-900 px-2 py-0.5 rounded">エディタへ写す</button>
+            </div>
+            <div id="code-display" class="bg-slate-950 text-emerald-400 font-mono p-4 rounded-xl border border-slate-800 text-xs leading-relaxed overflow-x-auto shadow-inner"></div>
+        </div>
+
+        <div id="editor-section" class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] text-amber-500 font-black uppercase">【練習場】自由に書き換えて OK</span>
+                <button onclick="runCode()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-1.5 rounded-full text-xs font-black transition-all transform active:scale-95 shadow-lg shadow-emerald-900/20">
+                    ▶ 実行する
+                </button>
+            </div>
+            <textarea id="code-input" 
+                class="w-full h-auto min-h-[150px] bg-black text-blue-300 font-mono p-4 rounded-xl border border-slate-800 outline-none text-sm leading-relaxed focus:border-blue-500 transition-all" 
+                placeholder="// ここにコードを書いて「実行」で結果を確認できます"
+                spellcheck="false"></textarea>
+            <div id="console-output" class="mt-2 p-3 bg-black rounded-lg border border-slate-800 text-xs font-mono text-slate-500 min-h-[40px] whitespace-pre-wrap"></div>
+        </div>
         
-        <div id="options" class="grid gap-3 mb-8"></div>
+        <div id="options" class="grid grid-cols-1 gap-2.5 mb-8"></div>
 
-        <button id="submit-btn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-lg hidden active:bg-blue-700 active:scale-[0.98] transition-all">回答を送信</button>
+        <button id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black text-white hidden active:scale-[0.98] transition-all shadow-xl">
+            回答を送信する
+        </button>
 
-        <div id="feedback" class="mt-6 p-5 rounded-2xl bg-slate-700/50 border border-slate-600 hidden">
-            <div id="result-message" class="text-xl font-black mb-2"></div>
-            <div id="explanation-text" class="text-slate-300 text-sm leading-relaxed mb-6"></div>
-            <button id="next-btn" class="w-full bg-white text-slate-900 py-4 rounded-xl font-bold active:bg-slate-200 transition-all">次の問題へ</button>
+        <div id="feedback" class="mt-6 p-5 rounded-2xl bg-slate-800 border border-slate-700 hidden">
+            <div id="result-message" class="text-2xl font-black mb-2"></div>
+            
+            <div id="correct-answer-area" class="hidden mb-4">
+                <div class="text-amber-400 text-xs font-bold uppercase mb-1">【正解】</div>
+                <div id="correct-options" class="text-white font-bold mb-4 bg-slate-900 p-3 rounded-lg border border-amber-900/30"></div>
+            </div>
+
+            <div class="text-blue-400 text-xs font-bold uppercase mb-1">【解説・ヒント】</div>
+            <div id="explanation-text" class="text-slate-300 text-sm leading-relaxed mb-6 border-l-4 border-slate-600 pl-4"></div>
+            
+            <div class="flex flex-col gap-3">
+                <button id="next-btn" class="w-full bg-white text-slate-900 py-4 rounded-xl font-black hover:bg-slate-100 transition-all">次の問題へ</button>
+                <button id="retry-btn" onclick="retryQuestion()" class="w-full bg-slate-700 text-white py-3 rounded-xl font-bold hidden">もう一度解き直す</button>
+                <button onclick="location.href='index.html'" class="w-full text-slate-500 py-2 text-xs font-bold text-center uppercase">メニューに戻る</button>
+            </div>
         </div>
     </div>
 
