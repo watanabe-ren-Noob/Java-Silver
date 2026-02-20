@@ -11,76 +11,64 @@
         * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen p-4 sm:p-6">
-    <div class="max-w-3xl mx-auto">
-        <header class="text-center mb-10">
-            <h1 class="text-3xl font-black text-blue-900">Java Silver 習得アプリ</h1>
-            <p class="text-slate-500 mt-2 text-sm">GitHub Pages Online Version</p>
+<body class="bg-slate-50 min-h-screen p-4 font-sans text-slate-900">
+    <div class="max-w-2xl mx-auto">
+        <header class="text-center mt-4 mb-8">
+            <h1 class="text-2xl font-black text-blue-900 tracking-tighter uppercase">Java Silver 習得アプリ</h1>
+            <p class="text-slate-400 text-[10px] font-bold tracking-widest uppercase mt-1">GitHub Pages Edition</p>
         </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
-            <button onclick="toggleModal()" class="bg-blue-600 text-white p-5 rounded-2xl shadow-lg hover:bg-blue-700 active:scale-95 transition font-bold text-lg">
+        <div class="grid grid-cols-2 gap-3 mb-8">
+            <button onclick="toggleModal()" class="bg-blue-600 text-white p-6 rounded-3xl shadow-xl shadow-blue-200 active:scale-95 transition-all font-black text-sm">
                 🚀 試験を開始
             </button>
-            <button onclick="location.href='huku.html'" class="bg-white text-slate-700 p-5 rounded-2xl shadow-lg border-2 border-slate-100 active:scale-95 transition font-bold text-lg">
+            <button onclick="location.href='huku.html'" class="bg-white text-slate-700 p-6 rounded-3xl shadow-lg border border-slate-100 active:scale-95 transition-all font-black text-sm">
                 📚 攻略集
             </button>
         </div>
 
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100">
-            <h2 class="text-lg font-bold mb-6 flex items-center text-slate-800">
-                <span class="w-2 h-6 bg-blue-600 rounded mr-3"></span>直接問題を選ぶ
+        <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100">
+            <h2 class="text-sm font-black mb-6 flex items-center text-slate-800 uppercase tracking-wider">
+                <span class="w-1.5 h-4 bg-blue-600 rounded-full mr-2"></span>章別問題
             </h2>
-            <div id="list-container" class="space-y-6">
-                <h3 class="font-bold text-slate-400 text-[10px] uppercase tracking-widest">第1章：Javaの概要</h3>
-                <div id="list-ch1" class="grid grid-cols-4 sm:grid-cols-8 gap-2"></div>
-                
-                <h3 class="font-bold text-slate-400 text-[10px] uppercase tracking-widest mt-4">第2章：データ型と文字列操作</h3>
-                <div id="list-ch2" class="grid grid-cols-4 sm:grid-cols-8 gap-2"></div>
+            <div id="list-container" class="space-y-8">
+                <div>
+                    <h3 class="font-black text-slate-400 text-[9px] uppercase tracking-widest mb-3">Ch.1 Javaの概要</h3>
+                    <div id="list-ch1" class="grid grid-cols-5 gap-2"></div>
+                </div>
+                <div>
+                    <h3 class="font-black text-slate-400 text-[9px] uppercase tracking-widest mb-3">Ch.2 データ型と文字列操作</h3>
+                    <div id="list-ch2" class="grid grid-cols-5 gap-2"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50 p-4">
-        <div class="modal-overlay absolute w-full h-full bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal()"></div>
-        <div class="modal-container bg-white w-full max-w-sm mx-auto rounded-3xl shadow-2xl z-50 p-6">
-            <h3 class="text-xl font-bold text-slate-800 text-center mb-6">出題範囲を選択</h3>
-            <div class="grid gap-3">
-                <button onclick="startExam('ch1')" class="w-full bg-blue-50 text-blue-700 p-4 rounded-xl font-bold">第1章から挑戦</button>
-                <button onclick="startExam('ch2')" class="w-full bg-indigo-50 text-indigo-700 p-4 rounded-xl font-bold">第2章から挑戦</button>
-                <button onclick="startExam('all')" class="w-full bg-slate-800 text-white p-4 rounded-xl font-bold">全範囲からランダム</button>
+    <div id="modal" class="modal opacity-0 pointer-events-none fixed inset-0 flex items-center justify-center z-50 p-6">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleModal()"></div>
+        <div class="bg-white w-full max-w-xs rounded-[2.5rem] shadow-2xl z-50 p-6">
+            <h3 class="text-lg font-black text-slate-800 text-center mb-6">出題範囲</h3>
+            <div class="grid gap-3 text-sm">
+                <button onclick="startExam('ch1')" class="bg-slate-50 text-blue-700 p-4 rounded-2xl font-black">第1章</button>
+                <button onclick="startExam('ch2')" class="bg-slate-50 text-indigo-700 p-4 rounded-2xl font-black">第2章</button>
+                <button onclick="startExam('all')" class="bg-slate-900 text-white p-4 rounded-2xl font-black">ランダム全範囲</button>
             </div>
         </div>
     </div>
 
     <script src="js/quiz-data.js"></script>
     <script>
-        // ボタン生成ロジック
         const container1 = document.getElementById('list-ch1');
         const container2 = document.getElementById('list-ch2');
-
         quizData.forEach((q, index) => {
             const btn = document.createElement('button');
-            btn.className = "aspect-square flex items-center justify-center rounded-xl border border-slate-200 text-sm font-bold active:bg-blue-600 active:text-white transition-all hover:border-blue-300";
+            btn.className = "aspect-square flex items-center justify-center rounded-xl border border-slate-100 bg-slate-50/50 text-xs font-black active:bg-blue-600 active:text-white active:scale-90 transition-all";
             btn.innerText = q.id;
-            btn.onclick = () => {
-                localStorage.setItem('targetIndex', index);
-                window.location.href = 'quiz.html';
-            };
-            if (q.id <= 9) container1.appendChild(btn);
-            else container2.appendChild(btn);
+            btn.onclick = () => { localStorage.setItem('targetIndex', index); location.href = 'quiz.html'; };
+            if (q.id <= 9) container1.appendChild(btn); else container2.appendChild(btn);
         });
-
-        function toggleModal() {
-            const m = document.getElementById('modal');
-            m.classList.toggle('opacity-0');
-            m.classList.toggle('pointer-events-none');
-        }
-
-        function startExam(range) {
-            localStorage.setItem('examRange', range);
-            window.location.href = 'quiz.html';
-        }
+        function toggleModal() { const m = document.getElementById('modal'); m.classList.toggle('opacity-0'); m.classList.toggle('pointer-events-none'); }
+        function startExam(range) { localStorage.setItem('examRange', range); location.href = 'quiz.html'; }
     </script>
 </body>
 </html>
