@@ -2,28 +2,37 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>クイズ画面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>クイズ | Java Silver</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        /* スクロールバーを隠す（コード用） */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
-    <div id="quiz-container" class="w-full max-w-2xl bg-slate-800 p-8 rounded-3xl shadow-2xl">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-start sm:items-center justify-center p-3 sm:p-6">
+    <div id="quiz-container" class="w-full max-w-2xl bg-slate-800 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl my-4">
         <div class="flex justify-between items-center mb-6">
-            <span id="progress" class="text-blue-400 font-mono">Question 0/0</span>
-            <button onclick="location.href='index.html'" class="text-slate-400 hover:text-white">✕ 閉じる</button>
+            <span id="progress" class="text-blue-400 font-mono text-xs sm:text-sm uppercase tracking-widest">Question 0/0</span>
+            <button onclick="location.href='index.html'" class="text-slate-400 hover:text-white p-2 text-sm">✕ 閉じる</button>
         </div>
 
-        <div id="question-text" class="text-xl font-bold mb-6 leading-relaxed"></div>
-        <div id="code-container" class="mb-6"></div>
+        <div id="question-text" class="text-lg sm:text-xl font-bold mb-6 leading-relaxed"></div>
+        
+        <div id="code-container" class="mb-6 rounded-xl overflow-hidden shadow-inner"></div>
+        
         <div id="options" class="grid gap-3 mb-8"></div>
 
-        <button id="submit-btn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-lg hidden">回答を送信</button>
+        <button id="submit-btn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-lg hidden active:bg-blue-700 active:scale-[0.98] transition-all">回答を送信</button>
 
-        <div id="feedback" class="mt-6 p-6 rounded-2xl bg-slate-700 hidden">
-            <div id="result-message" class="text-2xl mb-2"></div>
-            <div id="explanation-text" class="text-slate-300 text-sm mb-6"></div>
-            <button id="next-btn" class="w-full bg-slate-100 text-slate-900 py-3 rounded-xl font-bold">次の問題へ</button>
+        <div id="feedback" class="mt-6 p-5 rounded-2xl bg-slate-700/50 border border-slate-600 hidden">
+            <div id="result-message" class="text-xl font-black mb-2"></div>
+            <div id="explanation-text" class="text-slate-300 text-sm leading-relaxed mb-6"></div>
+            <button id="next-btn" class="w-full bg-white text-slate-900 py-4 rounded-xl font-bold active:bg-slate-200 transition-all">次の問題へ</button>
         </div>
     </div>
+
     <script src="js/quiz-data.js"></script>
     <script src="js/main.js"></script>
 </body>
